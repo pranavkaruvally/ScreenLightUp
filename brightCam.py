@@ -22,9 +22,12 @@ def takeFrameMakeGray():
 def calculateBrightness(gray):
     brightnessMatrix = np.array(gray)
     pixels = np.count_nonzero(brightnessMatrix >= 0)
+    #The count_nonzero method counts the number of elements in the array
+    #This helps us to find the number of pixels in the array
     sumOfBrightness = np.sum(brightnessMatrix)
-    ratio = sumOfBrightness/pixels
-    ratioInOne = ratio*scaleFactor
+    #the numpy sum function helps us to get the sum all values in the numpy array
+    ratio = sumOfBrightness/pixels #This will give the average brightness of a pixel
+    ratioInOne = ratio*scaleFactor #Scales it from a range of 0-255 to 0-1
     return round(ratioInOne + originFactor, 2)
 
 def findDisplayUnit():
