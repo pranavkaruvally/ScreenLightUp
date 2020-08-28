@@ -23,7 +23,7 @@ def calculateBrightness(gray):
     brightnessMatrix = np.array(gray)
     pixels = np.count_nonzero(brightnessMatrix >= 0)
     sumOfBrightness = np.sum(brightnessMatrix)
-    ratio = sumOfBrightness/total
+    ratio = sumOfBrightness/pixels
     ratioInOne = ratio*scaleFactor
     return round(ratioInOne + originFactor, 2)
 
@@ -39,14 +39,14 @@ def findDisplayUnit():
 
 if __name__ == '__main__':
     cap = cv2.VideoCapture(0) # This initializes the camera
-    set_480(cap)
+    set_480p(cap)
 
     gray = takeFrameMakeGray()
     brightness = calculateBrightness(gray)
 
     displayUnit = findDisplayUnit()
     subprocess.call(
-        f"xrandr --output {displayUnit} --brightness {finalValue}",
+        f"xrandr --output {displayUnit} --brightness {brightness}",
         shell = True)
     #The above line sets the brightness by calling xrandr
 
