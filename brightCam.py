@@ -36,3 +36,20 @@ def findDisplayUnit():
     #So, we execute the next line to avoid such difficulties
     displayUnit = unit.stdout.read().decode('utf-8').replace('\n', '')
     return displayUnit
+
+if __name__ == '__main__':
+    cap = cv2.VideoCapture(0) # This initializes the camera
+    set_480(cap)
+
+    gray = takeFrameMakeGray()
+    brightness = calculateBrightness(gray)
+
+    displayUnit = findDisplayUnit()
+    subprocess.call(
+        f"xrandr --output {displayUnit} --brightness {finalValue}",
+        shell = True)
+    #The above line sets the brightness by calling xrandr
+
+    #Now let's free up the memory
+    cap.release()
+    cv2.destroyAllWindows()
