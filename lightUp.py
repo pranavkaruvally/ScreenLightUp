@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import subprocess
 
-originFactor = 0.4 #This number is added to correct the error
+originFactor = 0.3 #This number is added to correct the error
 scaleFactor = 1/255 #This number helps to scale the final value between 0 and 1
 
 #This function will help us to readjust the screen ratio
