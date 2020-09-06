@@ -2,8 +2,7 @@ import cv2
 import numpy as np
 import subprocess
 
-originFactor = 0.3 #This number is added to correct the error
-scaleFactor = 1/255 #This number helps to scale the final value between 0 and 1
+scaleFactor = 15/255 #This number helps to scale the final value between 0 and 15
 
 #This function will help us to readjust the screen ratio
 #Here cap is the Capture device initialized
@@ -27,18 +26,8 @@ def calculateBrightness(gray):
     sumOfBrightness = np.sum(brightnessMatrix)
     #the numpy sum function helps us to get the sum all values in the numpy array
     ratio = sumOfBrightness/pixels #This will give the average brightness of a pixel
-    ratioInOne = ratio*scaleFactor #Scales it from a range of 0-255 to 0-1
-    return round(ratioInOne + originFactor, 2)
-
-def findDisplayUnit():
-    unit = subprocess.Popen(
-        'xrandr | grep " connected" | cut -f1 -d " "',
-        shell = True,
-        stdout = subprocess.PIPE)
-    #the unit.stdout.read() produces a byte-string with a new line character at the end
-    #So, we execute the next line to avoid such difficulties
-    displayUnit = unit.stdout.read().decode('utf-8').replace('\n', '')
-    return displayUnit
+    ratioInFifteen = ratio*scaleFactor #Scales it from a range of 0-255 to 0-1
+    return int(ratioInFifteen)
 
 if __name__ == '__main__':
     cap = cv2.VideoCapture(0) # This initializes the camera
@@ -47,9 +36,8 @@ if __name__ == '__main__':
     gray = takeFrameMakeGray()
     brightness = calculateBrightness(gray)
 
-    displayUnit = findDisplayUnit()
     subprocess.call(
-        f"xrandr --output {displayUnit} --brightness {brightness}",
+        f"echo {brightness} > /sys/class/backlight/acpi_video0/brightness",
         shell = True)
     #The above line sets the brightness by calling xrandr
 
