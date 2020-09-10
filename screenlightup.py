@@ -25,8 +25,8 @@ def calculateBrightness(gray):
     sumOfBrightness = np.sum(brightnessMatrix)
     #the numpy sum function helps us to get the sum all values in the numpy array
     ratio = sumOfBrightness/pixels #This will give the average brightness of a pixel
-    ratioInFifteen = ratio*scaleFactor #Scales it from a range of 0-255 to 0-1
-    return int(ratioInFifteen)
+    ratioInFifteen = ratio*scaleFactor #Scales it from a range of 0-255 to 0-15
+    return int(round(ratioInFifteen, 0))
 
 if __name__ == '__main__':
     cap = cv2.VideoCapture(0) # This initializes the camera
@@ -36,7 +36,7 @@ if __name__ == '__main__':
     brightness = calculateBrightness(gray)
 
     with open('/sys/class/backlight/acpi_video0/brightness', 'w') as brightness_file:
-        brightness_file.write('{brightness}')
+        brightness_file.write(f'{brightness}')
     #The above line sets the brightness
 
     #Now let's free up the memory

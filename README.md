@@ -7,4 +7,4 @@ Make sure `OpenCV' is installed.
 Maku sure you're root user when running this code
 
 Method of execution is given in the next line:
-    `sudo screenlightup.py`
+    `sudo python3 screenlightup.py`
